@@ -25,8 +25,11 @@ module Jekyll
 
         FileUtils.mkdir_p(File.dirname(dest_path))
         begin
+          config = Jekyll.configuration({})
+          style = config.has_key?('sass_style') ? config['sass_style'].to_sym : :compressed
+
           content = File.read(path)
-          engine = ::Sass::Engine.new( content, :syntax => :scss, :load_paths => ["#{@site.source}#{@dir}"], :style => :compressed )
+          engine = ::Sass::Engine.new( content, :syntax => :scss, :load_paths => ["#{@site.source}#{@dir}"], :style => style )
           content = engine.render
           File.open(dest_path, 'w') do |f|
             f.write(content)
