@@ -2,7 +2,7 @@ Sass for Jekyll
 ===============
 
 This gem provides a [Jekyll](http://github.com/mojombo/jekyll) converter for
-[Sass](http://http://sass-lang.com//) files.
+[Sass](http://sass-lang.com/) files.
 
 Basic Setup
 -----------
