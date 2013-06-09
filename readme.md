@@ -17,7 +17,7 @@ In a plugin file within your Jekyll project's `_plugins` directory:
 
 Place .scss files anywhere in your Jekyll project's directory.  These will be
 converted to .css files with the same directory path and filename. For example,
-if you create a Less file at `css/my-stuff/styles.scss`, then the corresponding
+if you create an `scss` file at `css/my-stuff/styles.scss`, then the corresponding
 css file would end up at `css/my-stuff/styles.css`.
 
 Bundler Setup
