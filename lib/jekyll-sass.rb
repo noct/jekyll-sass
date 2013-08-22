@@ -29,6 +29,12 @@ module Jekyll
         File.join(dest, @dir, @name.sub(/#{syntax}$/, 'css'))
       end
 
+      def root_destination(dest)
+        dest.chomp!('_site')
+        syntax = SassConfig.get()['syntax'].to_s
+        File.join(dest, @dir, @name.sub(/#{syntax}$/, 'css'))
+      end
+
       # Convert the sass/scss file into a css file.
       #   +dest+ is the String path to the destination dir
       #
@@ -36,10 +42,8 @@ module Jekyll
       def write(dest)
         config = SassConfig.get()
         dest_path = destination(dest)
-
         return false if File.exist? dest_path and !modified?
         @@mtimes[path] = mtime
-
         FileUtils.mkdir_p(File.dirname(dest_path))
         begin
           content = File.read(path)
@@ -52,7 +56,17 @@ module Jekyll
           STDERR.puts "Sass failed generating '#{dest_path}': #{e.message}"
           false
         end
-
+        begin
+          if config['compile_in_place']
+            root_dest_path = root_destination(dest)
+            File.open(root_dest_path, 'w') do |f|
+              f.write(content)
+            end
+          end
+        rescue => e
+          STDERR.puts "Sass failed generating '#{root_dest_path}': #{e.message}"
+          false
+        end
         true
       end
 
