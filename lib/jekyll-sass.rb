@@ -56,16 +56,16 @@ module Jekyll
           STDERR.puts "Sass failed generating '#{dest_path}': #{e.message}"
           false
         end
-        begin
-          if config['compile_in_place']
+        if config['compile_in_place']
+          begin
             root_dest_path = root_destination(dest)
             File.open(root_dest_path, 'w') do |f|
               f.write(content)
             end
+          rescue => e
+            STDERR.puts "Sass failed generating '#{root_dest_path}': #{e.message}"
+            false
           end
-        rescue => e
-          STDERR.puts "Sass failed generating '#{root_dest_path}': #{e.message}"
-          false
         end
         true
       end
@@ -89,8 +89,6 @@ module Jekyll
           end
         end
       end
-
     end
-
   end
 end
