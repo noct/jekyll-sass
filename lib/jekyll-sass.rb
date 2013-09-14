@@ -25,8 +25,7 @@ module Jekyll
       #
       # Returns destination file path.
       def destination(dest)
-        syntax = SassConfig.get()['syntax'].to_s
-        File.join(dest, @dir, @name.sub(/#{syntax}$/, 'css'))
+        File.join(dest, @dir, File.basename(@name, ".*") + ".css")
       end
 
       def in_place_destination(dest)
