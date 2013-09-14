@@ -5,17 +5,17 @@ module Jekyll
     require 'sass'
 
     class SassConfig
-      def self.generate()
-        config = Hash["style", :compressed, "syntax", :scss]
-        if Jekyll.configuration({}).has_key?('sass')
-          config.merge!(Jekyll.configuration({})['sass']) {|key,v1,v2| v2.to_sym}
+        def self.syntax(site)
+          (site.config['sass']['syntax'] || 'scss').to_sym
         end
-        config
-      end
 
-      def self.get()
-        @config ||= generate()
-      end
+        def self.style(site)
+          (site.config['sass']['style'] || 'compressed').to_sym
+        end
+
+        def self.compile_in_place?(site)
+          site.config['sass']['compile_in_place']
+        end
     end
 
     class SassCssFile < StaticFile
@@ -37,14 +37,16 @@ module Jekyll
       #
       # Returns false if the file was not modified since last time (no-op).
       def write(dest)
-        config = SassConfig.get()
         dest_path = destination(dest)
         return false if File.exist? dest_path and !modified?
         @@mtimes[path] = mtime
         FileUtils.mkdir_p(File.dirname(dest_path))
         begin
           content = File.read(path)
-          engine = ::Sass::Engine.new( content, :syntax => config['syntax'], :load_paths => ["#{@site.source}#{@dir}"], :style => config['style'] )
+          engine = ::Sass::Engine.new(content,
+                                      :syntax => SassConfig.syntax(@site),
+                                      :load_paths => [File.join(@site.source, @dir)],
+                                      :style => SassConfig.style(@site))
           content = engine.render
           File.open(dest_path, 'w') do |f|
             f.write(content)
@@ -53,7 +55,7 @@ module Jekyll
           STDERR.puts "Sass failed generating '#{dest_path}': #{e.message}"
           false
         end
-        if config['compile_in_place']
+        if SassConfig.compile_in_place?(@site)
           begin
             in_place_dest_path = in_place_destination(dest)
             File.open(in_place_dest_path, 'w') do |f|
@@ -76,7 +78,7 @@ module Jekyll
       # objects to the static_files array.  Here we replace those with a
       # SassCssFile object.
       def generate(site)
-        syntax = SassConfig.get()['syntax'].to_s
+        syntax = SassConfig.syntax(site)
         site.static_files.clone.each do |sf|
           if sf.path =~ /\.#{syntax}$/
             site.static_files.delete(sf)
