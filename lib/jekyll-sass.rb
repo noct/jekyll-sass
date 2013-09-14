@@ -79,7 +79,7 @@ module Jekyll
       def generate(site)
         syntax = SassConfig.get()['syntax'].to_s
         site.static_files.clone.each do |sf|
-          if sf.kind_of?(Jekyll::StaticFile) && sf.path =~ /\.#{syntax}$/
+          if sf.path =~ /\.#{syntax}$/
             site.static_files.delete(sf)
             name = File.basename(sf.path)
             destination = File.dirname(sf.path).sub(site.source, '')
