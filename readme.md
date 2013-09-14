@@ -38,10 +38,16 @@ Configuration
 -------------
 In your `_config.yml`
 
-	# defaults
+   # defaults
 	sass:
-	    syntax: scss        # scss|sass
-	    style:  compressed  # nested|expanded|compact|compressed
+	    syntax: scss      # scss|sass
+
+        style:  expanded  # nested|expanded|compact|compressed
+        deploy_style: compressed  # nested|expanded|compact|compressed
+        # "deploy_style:" is used only for building the site
+        # (ie: not using the --watch flag)
+        # If only "style:" is defined "deploy_style:" defaults to "style:"
+
         compile_in_place: false   # true|false
         # If true, compiles sass directly into your jekyll source directory
         # As well as your destination directory
