@@ -10,7 +10,12 @@ module Jekyll
         end
 
         def self.style(site)
-          (site.config['sass']['style'] || 'compressed').to_sym
+          if site.config['watch']
+            style = site.config['sass']['style'] || 'expanded'
+          else
+            style = site.config['sass']['deploy_style'] || site.config['sass']['style'] || 'compressed'
+          end
+          style.to_sym
         end
 
         def self.compile_in_place?(site)
