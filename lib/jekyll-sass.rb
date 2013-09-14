@@ -29,10 +29,8 @@ module Jekyll
         File.join(dest, @dir, @name.sub(/#{syntax}$/, 'css'))
       end
 
-      def root_destination(dest)
-        root = dest.chomp('_site')
-        syntax = SassConfig.get()['syntax'].to_s
-        File.join(root, @dir, @name.sub(/#{syntax}$/, 'css'))
+      def in_place_destination(dest)
+        File.join(File.dirname(path), File.basename(@name, ".*") + ".css")
       end
 
       # Convert the sass/scss file into a css file.
@@ -58,12 +56,12 @@ module Jekyll
         end
         if config['compile_in_place']
           begin
-            root_dest_path = root_destination(dest)
-            File.open(root_dest_path, 'w') do |f|
+            in_place_dest_path = in_place_destination(dest)
+            File.open(in_place_dest_path, 'w') do |f|
               f.write(content)
             end
           rescue => e
-            STDERR.puts "Sass failed generating '#{root_dest_path}': #{e.message}"
+            STDERR.puts "Sass failed to write in place '#{in_place_dest_path}': #{e.message}"
             false
           end
         end
