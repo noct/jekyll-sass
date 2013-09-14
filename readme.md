@@ -42,6 +42,9 @@ In your `_config.yml`
 	sass:
 	    syntax: scss        # scss|sass
 	    style:  compressed  # nested|expanded|compact|compressed
+        compile_in_place: false   # true|false
+        # If true, compiles sass directly into your jekyll source directory
+        # As well as your destination directory
 
 Credit
 ------
