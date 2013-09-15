@@ -5,10 +5,6 @@ module Jekyll
     require 'sass'
 
     class SassConfig
-      def self.syntax(site)
-        (site.config['sass']['syntax'] || 'scss').to_sym
-      end
-
       def self.style(site)
         if site.config['watch']
           style = site.config['sass']['style'] || 'expanded'
@@ -53,11 +49,8 @@ module Jekyll
         dest_path = destination(dest)
         FileUtils.mkdir_p(File.dirname(dest_path))
         begin
-          content = File.read(path)
-          engine = ::Sass::Engine.new(content,
-                                      :syntax => SassConfig.syntax(@site),
-                                      :load_paths => [File.join(@site.source, @dir)],
-                                      :style => SassConfig.style(@site))
+          engine = ::Sass::Engine.for_file(path,
+                                           :style => SassConfig.style(@site))
           content = engine.render
           File.open(dest_path, 'w') do |f|
             f.write(content)
@@ -89,9 +82,8 @@ module Jekyll
       # objects to the static_files array.  Here we replace those with a
       # SassCssFile object.
       def generate(site)
-        syntax = SassConfig.syntax(site)
         site.static_files.clone.each do |sf|
-          if sf.path =~ /\.#{syntax}$/
+          if sf.path =~ /\.(scss|sass)$/
             site.static_files.delete(sf)
             name = File.basename(sf.path)
             destination = File.dirname(sf.path).sub(site.source, '')
@@ -123,7 +115,7 @@ module Jekyll
       end
 
       def suppressed_sass_files(site)
-        sass_matcher = /^_.*\.#{SassConfig.syntax(site)}/
+        sass_matcher = /^_.*\.(sass|scss)/
         suppressed_sass_paths = recursively_search_directories(site, sass_matcher)
         files = [ ]
         suppressed_sass_paths.each do |path|
