@@ -5,22 +5,24 @@ module Jekyll
     require 'sass'
 
     class SassConfig
-        def self.syntax(site)
-          (site.config['sass']['syntax'] || 'scss').to_sym
-        end
+      def self.syntax(site)
+        (site.config['sass']['syntax'] || 'scss').to_sym
+      end
 
-        def self.style(site)
-          if site.config['watch']
-            style = site.config['sass']['style'] || 'expanded'
-          else
-            style = site.config['sass']['deploy_style'] || site.config['sass']['style'] || 'compressed'
-          end
-          style.to_sym
+      def self.style(site)
+        if site.config['watch']
+          style = site.config['sass']['style'] || 'expanded'
+        else
+          style = site.config['sass']['deploy_style'] ||
+            site.config['sass']['style'] ||
+            'compressed'
         end
+        style.to_sym
+      end
 
-        def self.compile_in_place?(site)
-          site.config['sass']['compile_in_place']
-        end
+      def self.compile_in_place?(site)
+        site.config['sass']['compile_in_place']
+      end
     end
 
     class SassCssFile < StaticFile
