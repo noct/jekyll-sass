@@ -56,20 +56,15 @@ module Jekyll
           File.open(dest_path, 'w') do |f|
             f.write(content)
           end
-        rescue => e
-          STDERR.puts "Sass failed generating '#{dest_path}': #{e.message}"
-          false
-        end
-        if SassConfig.compile_in_place?(@site)
-          begin
+          if SassConfig.compile_in_place?(@site)
             in_place_dest_path = in_place_destination(dest)
             File.open(in_place_dest_path, 'w') do |f|
               f.write(content)
             end
-          rescue => e
-            STDERR.puts "Sass failed to write in place '#{in_place_dest_path}': #{e.message}"
-            false
           end
+        rescue Sass::SyntaxError => e
+          STDERR.puts "Sass failed generating '#{dest_path}': #{e.message}"
+          false
         end
         true
       end
