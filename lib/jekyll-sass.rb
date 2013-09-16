@@ -61,7 +61,7 @@ module Jekyll
               f.write(content)
             end
           end
-        rescue Sass::SyntaxError => e
+        rescue ::Sass::SyntaxError => e
           STDERR.puts "Sass failed generating '#{dest_path}': #{e.message}"
           false
         end
