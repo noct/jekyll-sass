@@ -1,4 +1,5 @@
 require "jekyll-sass/version"
+require "colorator"
 
 module Jekyll
   module Sass
@@ -62,7 +63,7 @@ module Jekyll
             end
           end
         rescue ::Sass::SyntaxError => e
-          STDERR.puts "Sass failed generating '#{dest_path}': #{e.message}"
+          STDERR.puts "Sass failed generating '#{e.sass_filename}' line:#{e.sass_line} '#{e.message}'".red
           false
         end
         true

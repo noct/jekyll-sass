@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency('jekyll', [">= 0.10.0"])
   s.add_runtime_dependency('sass', [">= 3.0.0"])
+  s.add_runtime_dependency('colorator', "~> 0.1")
 end
