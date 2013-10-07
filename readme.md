@@ -51,4 +51,5 @@ In your `_config.yml`
 
 Credit
 ------
-This gem is based on [Roger López's](https://github.com/zroger) [jekyll-less](https://github.com/zroger/jekyll-less), with contributions from [Joe Buszkiewic](https://github.com/zznq).
+This gem is based on [@zroger's](https://github.com/zroger) [jekyll-less](https://github.com/zroger/jekyll-less),
+with contributions from [@zznq](https://github.com/zznq), [@Tambling](https://github.com/Tambling), and [@rebelzach](https://github.com/rebelzach).
