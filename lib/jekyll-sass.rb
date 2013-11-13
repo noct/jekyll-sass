@@ -17,6 +17,13 @@ module Jekyll
         style.to_sym
       end
 
+      def self.line_comments(site)
+        should_comment = false
+        if site.config['watch'] && self.style(site).to_s == 'expanded'
+          should_comment = true
+        end
+      end
+
       def self.compile_in_place?(site)
         site.config['sass']['compile_in_place']
       end
@@ -51,7 +58,8 @@ module Jekyll
         FileUtils.mkdir_p(File.dirname(dest_path))
         begin
           engine = ::Sass::Engine.for_file(path,
-                                           :style => SassConfig.style(@site))
+                                           :style => SassConfig.style(@site),
+                                           :line_comments => SassConfig.line_comments(@site))
           content = engine.render
           File.open(dest_path, 'w') do |f|
             f.write(content)
