@@ -22,6 +22,7 @@ module Jekyll
         if site.config['watch'] && self.style(site).to_s == 'expanded'
           should_comment = true
         end
+        should_comment
       end
 
       def self.compile_in_place?(site)
