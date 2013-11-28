@@ -6,12 +6,17 @@ module Jekyll
     require 'sass'
 
     class SassConfig
+      def self.sass_config(site)
+        site.config['sass'] || {}
+      end
+
       def self.style(site)
+        sass_config = sass_config(site)
         if site.config['watch']
-          style = site.config['sass']['style'] || 'expanded'
+          style = sass_config['style'] || 'expanded'
         else
-          style = site.config['sass']['deploy_style'] ||
-            site.config['sass']['style'] ||
+          style = sass_config['deploy_style'] ||
+            sass_config['style'] ||
             'compressed'
         end
         style.to_sym
@@ -26,7 +31,7 @@ module Jekyll
       end
 
       def self.compile_in_place?(site)
-        site.config['sass']['compile_in_place']
+        sass_config(site)['compile_in_place']
       end
     end
 
