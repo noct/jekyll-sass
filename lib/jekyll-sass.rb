@@ -153,7 +153,7 @@ module Jekyll
       # Returns an Array of absolute paths that match
       def recursively_search_directories(site, matcher, dir = '')
         base = File.join(site.source, dir)
-        entries = Dir.chdir(base) { filter_files(Dir.entries('.'), site) }
+        entries = Dir.chdir(base) { site.filter_entries(Dir.entries('.')) }
         found = [ ]
         entries.each do |f|
           f_abs = File.join(base, f)
@@ -169,21 +169,6 @@ module Jekyll
         return found
       end
 
-      # Filter out any files/directories that are specifically
-      # excluded in the site config
-      #
-      # entries - The Array of String file/directory entries to filter.
-      #
-      # Returns the Array of filtered entries.
-      def filter_files(entries, site)
-        entries.reject do |e|
-          unless site.include.glob_include?(e)
-            ['.', '#'].include?(e[0..0]) ||
-            site.exclude.glob_include?(e) ||
-            (File.symlink?(e) && site.safe)
-          end
-        end
-      end
     end
   end
 end
