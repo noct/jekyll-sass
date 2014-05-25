@@ -14,7 +14,7 @@ With Jekyll 2, simply add the gem to your `_config.yml` gems list:
 
 	gems: [jekyll-sass]
 
-In a plugin file within your Jekyll project's `_plugins` directory:
+Or for previous versions, create a plugin file within your Jekyll project's `_plugins` directory:
 
 	# _plugins/my-plugin.rb
 	require "jekyll-sass"
