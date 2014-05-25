@@ -9,6 +9,10 @@ Basic Setup
 Install the gem:
 
 	[sudo] gem install jekyll-sass
+	
+With Jekyll 2, simply add the gem to your `_config.yml` gems list:
+
+	gems: [jekyll-sass]
 
 In a plugin file within your Jekyll project's `_plugins` directory:
 
@@ -38,18 +42,18 @@ Configuration
 -------------
 In your `_config.yml`
 
-    # defaults
+	# defaults
 	sass:
-        style:  expanded  # nested|expanded|compact|compressed
-        deploy_style: compressed  # nested|expanded|compact|compressed
-        # "deploy_style:" is used only for building the site
-        # (ie: not using the --watch flag)
+		style:  expanded  # nested|expanded|compact|compressed
+		deploy_style: compressed  # nested|expanded|compact|compressed
+		# "deploy_style:" is used only for building the site
+		# (ie: not using the --watch flag)
  
-        compile_in_place: false   # true|false
-        # If true, compiles sass directly into your jekyll source directory
-        # As well as your destination directory
+		compile_in_place: false   # true|false
+		# If true, compiles sass directly into your jekyll source directory
+		# As well as your destination directory
 
 Credit
 ------
 This gem is based on [@zroger's](https://github.com/zroger) [jekyll-less](https://github.com/zroger/jekyll-less),
-with contributions from [@zznq](https://github.com/zznq), [@Tambling](https://github.com/Tambling), [@rebelzach](https://github.com/rebelzach), and [@kelvinst](https://github.com/kelvinst).
+with contributions from [@zznq](https://github.com/zznq), [@Tambling](https://github.com/Tambling), [@rebelzach](https://github.com/rebelzach), [@kelvinst](https://github.com/kelvinst), and [@bitboxer](https://github.com/bitboxer).
